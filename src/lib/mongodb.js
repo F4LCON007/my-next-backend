@@ -1,14 +1,17 @@
+// src/lib/mongodb.js
 import { MongoClient } from "mongodb";
 
-const options = {};
+const options = {
+  family: 4,
+  tls: true,
+  serverSelectionTimeoutMS: 20000,
+  retryWrites: true,
+};
 
 let globalClientPromise;
 
 export function getClientPromise() {
   const uri = process.env.MONGODB_URI;
-
-  // TEMPORARY DEBUG LINE — remove once issue is fixed
-  console.log("DEBUG URI:", JSON.stringify(uri));
 
   if (!uri) {
     throw new Error(
